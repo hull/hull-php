@@ -59,7 +59,7 @@
       $headers[] = "User-Agent: HullPHPClient-" . Hull_Client::$version;
       $headers[] = "Content-Type: application/json";
       $headers[] = "Hull-App-Id: "  . $this->appId;
-      $headers[] = "Hull-Acess-Token: " . $this->appSecret;
+      $headers[] = "Hull-Access-Token: " . $this->appSecret;
       
       $url = $this->host . "/api/v1/" . $path;
       
