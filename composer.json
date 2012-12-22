@@ -1,8 +1,8 @@
 {
-  "name": "hull/hull",
+  "name": "hull/hull-sdk",
   "type": "library",
-  "description": "Hull PHP Client",
-  "homepage": "http://github.com/hull/php-client",
+  "description": "Hull PHP SDK",
+  "homepage": "http://github.com/hull/php-sdk",
   "license": "MIT",
   "authors": [
     {
