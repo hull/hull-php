@@ -70,6 +70,23 @@ class Hull_Client {
     return $config;
   }
 
+  public function currentUserId() {
+    $rawCookie = $_COOKIE['hull_' . $this->appId];
+    if (!$rawCookie) {
+      return;
+    }
+    $signedCookie = json_decode(base64_decode($rawCookie), true);
+    $userId = $signedCookie['Hull-User-Id'];
+    $sig    = explode(".", $signedCookie['Hull-User-Sig']);
+    $time   = $sig[0];
+    $signature = $sig[1];
+    $data = $time . '-' . $userId;
+    $check = hash_hmac("sha1", $data, $this->appSecret);
+    if ($check == $signature) {
+      return $userId;
+    }
+  }
+
   // View Helpers
   public function imageUrl($id, $size="small") {
     return "//" . $this->host . "/img/" . $id . "/" . $size;
