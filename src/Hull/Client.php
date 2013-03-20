@@ -2,6 +2,7 @@
 
 require_once 'Connection.php';
 require_once 'Cache.php';
+require_once 'Event.php';
 
 class Hull_Client {
     
@@ -90,6 +91,10 @@ class Hull_Client {
   // View Helpers
   public function imageUrl($id, $size="small") {
     return "//" . $this->host . "/img/" . $id . "/" . $size;
+  }
+  
+  public function getEvent() {
+    return new Hull_Event($this->appSecret);
   }
 
   // HTTP Plumbing...
