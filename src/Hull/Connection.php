@@ -22,6 +22,7 @@
     
     public  $host;
     public  $appId;
+    public  $userId;
     public  $appSecret;
     public  $noHttpCache;
     private $cache;
@@ -33,6 +34,9 @@
       
       $this->appId       = $config['appId'];
       $this->appSecret   = $config['appSecret'];
+      if (isset($config['userId'])) {
+        $this->userId      = $config['userId'];
+      }
 
       if(isset($config['noHttpCache'])){
         $this->noHttpCache = $config['noHttpCache'];
@@ -60,6 +64,9 @@
       $headers[] = "Content-Type: application/json";
       $headers[] = "Hull-App-Id: "  . $this->appId;
       $headers[] = "Hull-Access-Token: " . $this->appSecret;
+      if ($this->userId) {
+        $headers[] = "Hull-User-Id: " . $this->userId;
+      }
       
       $url = $this->host . "/api/v1/" . $path;
       

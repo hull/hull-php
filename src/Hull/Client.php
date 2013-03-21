@@ -23,6 +23,10 @@ class Hull_Client {
     $this->host        = $config['host'];
     $this->appId       = $config['appId'];
     $this->appSecret   = $config['appSecret'];
+    $this->userId      = false;
+    if (isset($config['userId'])) {
+      $this->userId      = $config['userId'];
+    }
 
     $this->connection  = new Hull_Connection($config);
 
