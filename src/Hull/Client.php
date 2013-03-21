@@ -46,16 +46,16 @@ class Hull_Client {
     }
   }
 
-  private static function parseConfig($config=array()) {
+  private static function decamelize($camel,$splitter="_") {
+    $camel=preg_replace('/(?!^)[[:upper:]][[:lower:]]/', '$0', preg_replace('/(?!^)[[:upper:]]+/', $splitter.'$0', $camel));
+    return strtolower($camel);
+  }
     
-    function decamelize($camel,$splitter="_") {
-      $camel=preg_replace('/(?!^)[[:upper:]][[:lower:]]/', '$0', preg_replace('/(?!^)[[:upper:]]+/', $splitter.'$0', $camel));
-      return strtolower($camel);
-    }
+  private static function parseConfig($config=array()) {
     
     foreach (self::$configKeys as $key) {
       $val = NULL;
-      $envKey = "HULL_" . strtoupper(decamelize($key));
+      $envKey = "HULL_" . strtoupper(self::decamelize($key));
 
       if (isset($config[$key])) {
         $val = $config[$key];
