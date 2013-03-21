@@ -89,7 +89,12 @@ class Hull_Client {
 
   // View Helpers
   public function imageUrl($id, $size="small") {
-    return "//" . $this->host . "/img/" . $id . "/" . $size;
+    $url = $this->host . "/img/" . $id . "/" . $size;
+    if (!preg_match('/^https?/', $url)) {
+      $url = '//' . $url;
+    }
+    //Assets have their own subdomain
+    return str_replace('//', '//assets.', $url); 
   }
 
   // HTTP Plumbing...
