@@ -2,6 +2,7 @@
 
 require_once 'Connection.php';
 require_once 'Cache.php';
+require_once 'Event.php';
 
 class Hull_Client {
     
@@ -99,6 +100,10 @@ class Hull_Client {
     }
     //Assets have their own subdomain
     return str_replace('//', '//assets.', $url); 
+  }
+  
+  public function getEvent() {
+    return new Hull_Event($this->appSecret);
   }
 
   // HTTP Plumbing...
