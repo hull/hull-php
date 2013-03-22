@@ -1,8 +1,8 @@
 # Hull PHP Client
 
-## Getting started
+## Getting started.
 
-## Installation & Configuration
+## Installation & Configuration.
 
-## Usage
+## Usage.
 
