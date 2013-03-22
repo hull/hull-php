@@ -103,7 +103,7 @@ class Hull_Client {
   }
   
   public function getEvent() {
-    return new Hull_Event($this->appSecret);
+    return new Hull_Event(file_get_contents('php://input'), $this->appSecret, $this->appId);
   }
 
   // HTTP Plumbing...
