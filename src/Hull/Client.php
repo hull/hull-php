@@ -13,7 +13,7 @@ class Hull_Client {
   
   static $configKeys = array('host', 'appId', 'appSecret');
 
-  static $defaultConfig = array('host' => 'api.hull.io', 'debug' => false);
+  static $defaultConfig = array('host' => 'api.hullapp.io', 'debug' => false);
 
   function Hull_Client($o_config=array()){
 
@@ -102,6 +102,16 @@ class Hull_Client {
     return str_replace('//', '//assets.', $url); 
   }
   
+  public function userHash($userInfos) {
+    if (!is_array($userInfos) || !isset($userInfos['email'])) {
+      return false;
+    }
+    $message = base64_encode(json_encode($userInfos));
+    $timestamp = time();
+    $signature = hash_hmac("sha1", "$message $timestamp", $this->appSecret);
+    return "$message $signature $timestamp";
+  }
+
   public function getEvent() {
     return new Hull_Event(file_get_contents('php://input'), $this->appSecret, $this->appId);
   }
