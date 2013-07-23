@@ -19,7 +19,7 @@
   }
 
   class Hull_Connection {
-    
+
     public  $host;
     public  $appId;
     public  $userId;
@@ -27,11 +27,11 @@
     public  $noHttpCache;
     private $cache;
     public  $debug;
-    
+
     function Hull_Connection($config=array()) {
 
       $this->host        = $config['host'];
-      
+
       $this->appId       = $config['appId'];
       $this->appSecret   = $config['appSecret'];
       if (isset($config['userId'])) {
@@ -49,15 +49,15 @@
         $this->cache = new Hull_Cache($config['cacheHost'], $config['cachePort'], $config['cacheExpiration']);
       }
     }
-    
-    
+
+
     public function flushCache($delay=0) {
       if ($this->cache) {
         $this->cache->flush($delay);
       }
       return true;
     }
-    
+
     public function exec($type, $path, $params = array(), $headers = array()) {
       $params["format"] = "json";
       $headers[] = "User-Agent: HullPHPClient-" . Hull_Client::$version;
@@ -67,9 +67,9 @@
       if ($this->userId) {
         $headers[] = "Hull-User-Id: " . $this->userId;
       }
-      
+
       $url = $this->host . "/api/v1/" . $path;
-      
+
       if ($this->noHttpCache) {
         $headers[] = "Cache-Control: no-cache";
       }
@@ -81,30 +81,30 @@
       }
       return (array)$res;
     }
-    
+
     private function _cache_exec($url, $params, $headers) {
       $ident = $url . "?" . http_build_query($params) . "|" . implode(",", $headers);
       $ident = md5($ident);
-      
+
       $res = $this->cache->get($ident);
       if ($res) {
         if ($this->debug_options) {
-          $this->debug_options['cache_hits']++;
+          $this->debug_options['cacheHits']++;
         }
         $res = (array)json_decode($res);
       } else {
         if ($this->debug_options) {
-          $this->debug_options['cache_misses']++;
+          $this->debug_options['cacheMisses']++;
         }
         $res = $this->_http_exec("GET", $url, $params, $headers);
         $this->cache->set($ident, json_encode($res));
       }
       return $res;
     }
-    
+
     private function _http_exec($type, $url, $params, $headers) {
       if (isset($this->debug_options)) {
-        $this->debug_options['http_hits']++;
+        $this->debug_options['httpHits']++;
       }
 
       $s = curl_init();
@@ -117,7 +117,7 @@
             curl_setopt($s, CURLOPT_URL, $url);
             curl_setopt($s, CURLOPT_CUSTOMREQUEST, "PUT");
             curl_setopt($s, CURLOPT_POSTFIELDS, json_encode($params));
-            break;            
+            break;
           case "POST":
             curl_setopt($s, CURLOPT_URL, $url);
             curl_setopt($s, CURLOPT_POST, true);
@@ -150,7 +150,7 @@
         return $res;
       }
     }
-    
+
   }
 
 ?>
