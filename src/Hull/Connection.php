@@ -27,6 +27,7 @@
     public  $noHttpCache;
     private $cache;
     public  $debug;
+    private $preventSSLVerifyPeer = false; //Thanks for nothing, Windows.
 
     function Hull_Connection($config=array()) {
 
@@ -47,6 +48,10 @@
       }
       if (isset($config['cache']) && $config['cache']==='true') {
         $this->cache = new Hull_Cache($config['cacheHost'], $config['cachePort'], $config['cacheExpiration']);
+      }
+
+      if (isset($config['debug']) && $config['debug'] === 'true' && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') { //Running under windows in debug mode
+        $this->preventSSLVerifyPeer = true;
       }
     }
 
@@ -130,6 +135,11 @@
       curl_setopt($s, CURLOPT_TIMEOUT, 60);
       curl_setopt($s, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($s, CURLOPT_HTTPHEADER, $headers);
+
+      if ($this->preventSSLVerifyPeer) {
+        echo "Warning: SSL is not verified in debug mode under Windows.";
+        curl_setopt($s, CURLOPT_SSL_VERIFYPEER, false);
+      }
 
       $out = curl_exec($s);
       $status = curl_getinfo($s, CURLINFO_HTTP_CODE);
