@@ -2,7 +2,7 @@
 
 ## Installation
 
-If you are using composer, just add `hull/hull-sdk`  this to your `composer.json` file : 
+If you are using composer, just add `hull/hull-sdk`  this to your `composer.json` file :
 
     {
       "name" : "my-org/my-awesome-hull-project",
@@ -17,7 +17,7 @@ If you are using composer, just add `hull/hull-sdk`  this to your `composer.json
 
 ### Configuration
 
-      <?php 
+      <?php
       require 'vendor/autoload.php';
       $hull = new Hull_Client(array( 'hull' => array(
         'host' => 'your-org.hullapp.dev',
@@ -30,9 +30,9 @@ If you are using composer, just add `hull/hull-sdk`  this to your `composer.json
 
 `get`, `put`, `post` and `delete` methods are directly available on your instance of Hull_Client.
 
-examples: 
-    
-    <?php 
+#### examples
+
+    <?php
     # To get the current app
     $hull->get('app');
 
@@ -42,7 +42,7 @@ examples:
     # To update an existing object
     $hull->put('app', array('name' => 'My Super App'));
 
-with Hull entities :
+##### with Hull entities
 
     $hull->get('entity', array('uid' => 'http://example.com'));
     $hull->put('entity', array('uid' => 'http://example.com', 'name' => 'My super Page'));
@@ -53,12 +53,12 @@ with Hull entities :
 
 In addition to providing multiple social login options, Hull allows you to create and authenticate users that are registered within your own app.
 
-To use this feature, you just have to add a `userHash` key at the initialization of hull.js : 
+To use this feature, you just have to add a `userHash` key at the initialization of hull.js :
 
-In you view : 
+In you view :
 
     <?php $user = array('id' => '123', 'email' => 'bill@hullapp.io', 'name' => 'Bill Evans'); ?>
-    <script>      
+    <script>
       Hull.init({
         appId: '<?php echo $hull->appId ?>',
         orgUrl: 'http://<?php echo $hull->host ?>',
@@ -67,6 +67,15 @@ In you view :
       })
     </script>
 
+### Windows users
+
+If you're a Windows user, you may encounter an issue that prevents hull from making requests.
+This is due to the default implementation of SSL. If you're running into any kind of trouble under Windows,
+activate debug mode as indicated above. Doing so will allow you to perform requests as expected.
+
+Please note that you should not keep this activated in production, as it must be fixed system-wide for security reasons.
+
+We do not mitigate on security. Period.
 
 ## Contributing
 
