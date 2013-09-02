@@ -1,19 +1,13 @@
 {
-  "name": "hull/hull-sdk",
+  "name": "hull/hull-php",
   "type": "library",
   "description": "Hull PHP SDK",
-  "homepage": "http://github.com/hull/php-sdk",
+  "homepage": "http://github.com/hull/hull-php",
   "license": "MIT",
   "authors": [
     {
       "name": "Stephane Bellity",
       "email": "stephane@hull.io"
     }
-  ],
-  "require" : {
-    "facebook/php-sdk" : "*"
-  },
-  "autoload" : {
-    "psr-0" : { "Hull" : "src/" }
-  }
+  ]
 }
