@@ -31,10 +31,6 @@ class Hull_Client {
 
     $this->connection  = new Hull_Connection($config);
 
-    if (isset($o_config['fb']) && $o_config['fb']['appId'] ) {
-      $this->facebook = new Hull_Facebook($o_config['fb']);
-    }
-
     if (isset($config['noHttpCache'])){
      $this->noHttpCache = $config['noHttpCache'];
     }
