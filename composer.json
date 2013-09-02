@@ -2,12 +2,16 @@
   "name": "hull/hull-sdk",
   "type": "library",
   "description": "Hull PHP SDK",
-  "homepage": "http://github.com/hull/php-sdk",
+  "homepage": "http://github.com/hull/hull-php",
   "license": "MIT",
   "authors": [
     {
       "name": "Stephane Bellity",
       "email": "stephane@hull.io"
+    },
+    {
+      "name": "Xavier Cambar",
+      "email": "xcambar@gmail.com"
     }
   ],
   "require" : {
