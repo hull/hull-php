@@ -101,7 +101,11 @@ class Hull_Client {
   }
 
   public function userHash($userInfos) {
-    if (!is_array($userInfos) || !isset($userInfos['email'])) {
+    if (!is_array($userInfos)) {
+      return false;
+    }
+
+    if (!isset($userInfos['hull_user_id']) && !isset($userInfos['email'])) {
       return false;
     }
     $message = base64_encode(json_encode($userInfos));
