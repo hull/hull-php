@@ -142,6 +142,11 @@
       }
 
       $out = curl_exec($s);
+      if ($out === false) {
+        $error = curl_error($s);
+        curl_close($s);
+        throw new Exception("cURL Error while fetching Hull data: " . $error);
+      }
       $status = curl_getinfo($s, CURLINFO_HTTP_CODE);
       $response = curl_getinfo($s);
       curl_close($s);
