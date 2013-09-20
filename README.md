@@ -8,7 +8,7 @@ If you are using composer, just add `hull/hull-sdk`  this to your `composer.json
       "name" : "my-org/my-awesome-hull-project",
       "version" : "0.1.0",
       "require" : {
-        "hull/hull-sdk": "dev-master"
+        "hull/hull": "dev-master"
       }
     }
 
