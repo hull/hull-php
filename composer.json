@@ -13,5 +13,8 @@
       "name": "Xavier Cambar",
       "email": "xcambar@gmail.com"
     }
-  ]
+  ],
+  "autoload" : {
+    "psr-0" : { "Hull" : "" }
+  }
 }
