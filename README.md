@@ -20,7 +20,7 @@ If you are using composer, just add `hull/hull-sdk`  this to your `composer.json
       <?php
       require 'vendor/autoload.php';
       $hull = new Hull_Client(array( 'hull' => array(
-        'host' => 'your-org.hullapp.dev',
+        'host' => 'your-org.hullapp.io',
         'appId' => 'your-app-id',
         'appSecret' => 'yout-app-secret'
       )));
