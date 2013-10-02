@@ -13,7 +13,7 @@ class Hull_Client {
 
   static $configKeys = array('host', 'appId', 'appSecret');
 
-  static $defaultConfig = array('host' => 'api.hullapp.io', 'debug' => false);
+  static $defaultConfig = array('host' => '', 'debug' => false);
 
   function Hull_Client($o_config=array()){
 

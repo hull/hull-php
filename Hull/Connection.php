@@ -123,6 +123,11 @@
             curl_setopt($s, CURLOPT_CUSTOMREQUEST, "PUT");
             curl_setopt($s, CURLOPT_POSTFIELDS, json_encode($params));
             break;
+          case "DELETE":
+            curl_setopt($s, CURLOPT_URL, $url);
+            curl_setopt($s, CURLOPT_CUSTOMREQUEST, "DELETE");
+            curl_setopt($s, CURLOPT_POSTFIELDS, json_encode($params));
+            break;
           case "POST":
             curl_setopt($s, CURLOPT_URL, $url);
             curl_setopt($s, CURLOPT_POST, true);
