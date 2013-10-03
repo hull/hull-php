@@ -90,6 +90,21 @@ class Hull_Client {
     }
   }
 
+  // Current User
+  public function asUser($userId) {
+    $userConfig = array_merge(array('userId' => $userId), $this->config);
+    return new self(array('hull' => $userConfig));
+  }
+
+  public function asCurrentUser() {
+    $userId = $this->currentUserId();
+    if ($userId) {
+      return $this->asUser($userId);
+    } else {
+      throw new Exception("No 'current user' logged in.");
+    }
+  }
+
   // View Helpers
   public function imageUrl($id, $size="small") {
     $url = $this->host . "/img/" . $id . "/" . $size;

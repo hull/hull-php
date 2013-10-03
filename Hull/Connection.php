@@ -27,6 +27,7 @@
     public  $noHttpCache;
     private $cache;
     public  $debug;
+    public  $debug_options;
     private $preventSSLVerifyPeer = false; //Thanks for nothing, Windows.
 
     function Hull_Connection($config=array()) {
@@ -43,14 +44,20 @@
         $this->noHttpCache = $config['noHttpCache'];
       }
 
-      if (isset($config['debug']) && $config['debug']==='true') {
+      if (isset($config['debug']) && $config['debug']) {
         $this->debug_options = array("httpHits" => 0, "cacheHits" => 0, "cacheMisses" => 0);
       }
-      if (isset($config['cache']) && $config['cache']==='true') {
-        $this->cache = new Hull_Cache($config['cacheHost'], $config['cachePort'], $config['cacheExpiration']);
+      if (isset($config['cache']) && $config['cache']) {
+        $cacheConfig = array('cacheHost' => 'localhost', 'cachePort' => 11211, 'cacheExpiration' => 120);
+        foreach ($cacheConfig as $k => $v) {
+          if (isset($config[$k])) {
+            $cacheConfig[$k] = $v;
+          }
+        }
+        $this->cache = new Hull_Cache($cacheConfig['cacheHost'], $cacheConfig['cachePort'], $cacheConfig['cacheExpiration']);
       }
 
-      if (isset($config['debug']) && $config['debug'] === 'true' && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') { //Running under windows in debug mode
+      if (isset($config['debug']) && $config['debug'] && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') { //Running under windows in debug mode
         $this->preventSSLVerifyPeer = true;
       }
     }
