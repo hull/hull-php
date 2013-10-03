@@ -48,6 +48,19 @@ If you are using composer, just add `hull/hull-sdk`  this to your `composer.json
     $hull->put('entity', array('uid' => 'http://example.com', 'name' => 'My super Page'));
     $hull->delete('entity', array('uid' => 'http://example.com'));
 
+##### API Calls authenticated as a User
+    
+    // As a Specific user
+    $hull->asUser('xxxx')->get('me');
+
+    // If there is a current user
+    $hull->asCurrentUser()->get('me');
+
+`asUser` and `asCurrentUser` return new instances of Hull_Client, so you can also do : 
+
+    $hullForCurrentUser = $hull->asCurrentUser();
+    $hullForCurrentUser->get('me');
+
 
 ### Bring your own users
 
