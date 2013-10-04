@@ -2,7 +2,7 @@
 
 ## Installation
 
-If you are using composer, just add `hull/hull-sdk`  this to your `composer.json` file :
+If you are using composer, just add `hull/hull` to your `composer.json` file :
 
     {
       "name" : "my-org/my-awesome-hull-project",
