@@ -62,6 +62,20 @@ If you are using composer, just add `hull/hull` to your `composer.json` file :
     $hullForCurrentUser->get('me');
 
 
+### Getting the current user connected via hull.js
+
+You can get the current user connected via Hull.js via the `currentUserId` method.
+
+*Example:*
+
+    $userId = $hull->currentUserId();
+
+And fetch the current user infos from Hull's API: 
+
+    $currentUserId = $hull->currentUserId();
+    $currentUser   = $hull->get($currentUserId);
+
+
 ### Bring your own users
 
 In addition to providing multiple social login options, Hull allows you to create and authenticate users that are registered within your own app.
@@ -79,6 +93,22 @@ In you view :
         debug: true // optional
       })
     </script>
+
+
+To give / remove "admin" access to those users you can add the "is_admin" flag to your userHash.
+
+example: 
+
+    <?php $user = array('id' => '123', 'email' => 'bill@hullapp.io', 'name' => 'Bill Evans', 'is_admin' => true); ?>
+    <script>
+      Hull.init({
+        appId: '<?php echo $hull->appId ?>',
+        orgUrl: 'http://<?php echo $hull->host ?>',
+        userHash: '<?php echo $hull->userHash($user) ?>',
+        debug: true // optional
+      })
+    </script>
+
 
 ### Windows users
 
