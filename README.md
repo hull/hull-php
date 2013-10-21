@@ -12,6 +12,7 @@ If you are using composer, just add `hull/hull` to your `composer.json` file :
       }
     }
 
+Please checkout [Composer's documentation here](http://getcomposer.org/).
 
 ## Usage
 
