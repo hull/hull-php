@@ -50,14 +50,14 @@ Please checkout [Composer's documentation here](http://getcomposer.org/).
     $hull->delete('entity', array('uid' => 'http://example.com'));
 
 ##### API Calls authenticated as a User
-    
+
     // As a Specific user
     $hull->asUser('xxxx')->get('me');
 
     // If there is a current user
     $hull->asCurrentUser()->get('me');
 
-`asUser` and `asCurrentUser` return new instances of Hull_Client, so you can also do : 
+`asUser` and `asCurrentUser` return new instances of Hull_Client, so you can also do :
 
     $hullForCurrentUser = $hull->asCurrentUser();
     $hullForCurrentUser->get('me');
@@ -71,7 +71,7 @@ You can get the current user connected via Hull.js via the `currentUserId` metho
 
     $userId = $hull->currentUserId();
 
-And fetch the current user infos from Hull's API: 
+And fetch the current user infos from Hull's API:
 
     $currentUserId = $hull->currentUserId();
     $currentUser   = $hull->get($currentUserId);
@@ -98,7 +98,7 @@ In you view :
 
 To give / remove "admin" access to those users you can add the "is_admin" flag to your userHash.
 
-example: 
+example:
 
     <?php $user = array('id' => '123', 'email' => 'bill@hullapp.io', 'name' => 'Bill Evans', 'is_admin' => true); ?>
     <script>
@@ -110,6 +110,24 @@ example:
       })
     </script>
 
+### Hooks
+
+[Hooks](hull.io/docs/libraries/#hooks) allow you to be notified every time an
+object in your app is created, updated or deleted.
+
+```php
+<?php
+
+$event = $hull->getEvent();
+
+if ($event->valid) {
+  // Do something with $event->payload
+  // To guard against replay-attacks you can use $event->nonce
+} else {
+  // $event->error
+}
+
+```
 
 ### Windows users
 
