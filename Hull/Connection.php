@@ -174,7 +174,7 @@
         $body = array();
       }
 
-      $res = array("status" => $status, "body" => $body);
+      $res = array("status" => $status, "body" => $body, "headers" => $response_headers);
 
       if ($status >= 400) {
         throw new Exception(json_encode($res));
