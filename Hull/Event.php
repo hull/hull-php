@@ -8,14 +8,14 @@ class Hull_Event {
   public $timestamp;
   public $error;
 
-  function Hull_Event($stream, $appSecret, $appId='') {
+  function Hull_Event($stream, $app_secret, $app_id='') {
     try {
       $this->payload    = json_decode($stream);
-      $appId            = strlen($appId) ? $appId : $_SERVER['HTTP_HULL_APP_ID'];
-      if ($appId && $this->payload->appId && $appId !== $this->payload->appId) {
+      $app_id            = strlen($app_id) ? $app_id : $_SERVER['HTTP_HULL_APP_ID'];
+      if ($app_id && $this->payload->app_id && $app_id !== $this->payload->app_id) {
         throw new Exception('inconsistent app IDs');
-      } elseif (!$appId) {
-        $appId = $this->payload->appId;
+      } elseif (!$app_id) {
+        $app_id = $this->payload->app_id;
       }
 
       $signature        = $_SERVER['HTTP_HULL_SIGNATURE'];
@@ -27,7 +27,7 @@ class Hull_Event {
       $this->nonce      = $sig[1];
       $hash             = $sig[2];
       $data             = implode("-", array($this->timestamp, $this->nonce, $stream));
-      $this->valid      = $signature === hash_hmac("sha1", $data, $appSecret);
+      $this->valid      = $signature === hash_hmac("sha1", $data, $app_secret);
     } catch (Exception $e) {
       $this->error      = $e;
       $this->valid      = false;
