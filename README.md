@@ -51,8 +51,14 @@ Please checkout [Composer's documentation here](http://getcomposer.org/).
 
 ##### API Calls authenticated as a User
 
-    // As a Specific user
-    $hull->asUser('xxxx')->get('me');
+    // As a Specific user with his hull User ID
+    $userId = '5162ca315d49e15dcb00005a';
+    $hull->asUser($userId)->get('me');
+    
+    // As a Specific user with his third party provider ID
+    $facebookUserId = '1000002122121';
+    $hull->asUser('facebook:' . $facebookUserId)->get('me');
+    
 
     // If there is a current user
     $hull->asCurrentUser()->get('me');
