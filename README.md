@@ -23,7 +23,7 @@ Please checkout [Composer's documentation here](http://getcomposer.org/).
       $hull = new Hull_Client(array( 'hull' => array(
         'host' => 'your-org.hullapp.io',
         'appId' => 'your-app-id',
-        'appSecret' => 'yout-app-secret'
+        'appSecret' => 'your-app-secret'
       )));
 
 
