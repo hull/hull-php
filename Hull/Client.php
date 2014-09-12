@@ -72,13 +72,19 @@ class Hull_Client {
   }
 
   public function currentUserId() {
+    $rawSignature = false;
     $cookieName = 'hull_' . $this->appId;
-    $rawCookie = isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName] : false;
+    $rawSignature = isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName] : false;
 
-    if (!$rawCookie) {
+    if (!$rawSignature && isset($_SERVER['HTTP_HULL_USER_SIG'])) {
+      $rawSignature = $_SERVER['HTTP_HULL_USER_SIG'];
+    }
+    
+    if (!$rawSignature) {
       return;
     }
-    $signedCookie = json_decode(base64_decode($rawCookie), true);
+
+    $signedCookie = json_decode(base64_decode($rawSignature), true);
     $userId = $signedCookie['Hull-User-Id'];
     $sig    = explode(".", $signedCookie['Hull-User-Sig']);
     $time   = $sig[0];
