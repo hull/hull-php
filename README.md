@@ -54,11 +54,11 @@ Please checkout [Composer's documentation here](http://getcomposer.org/).
     // As a Specific user with his hull User ID
     $userId = '5162ca315d49e15dcb00005a';
     $hull->asUser($userId)->get('me');
-    
+
     // As a Specific user with his third party provider ID
     $facebookUserId = '1000002122121';
     $hull->asUser('facebook:' . $facebookUserId)->get('me');
-    
+
 
     // If there is a current user
     $hull->asCurrentUser()->get('me');
@@ -91,12 +91,12 @@ To use this feature, you just have to add a `userHash` key at the initialization
 
 In you view :
 
-    <?php $user = array('id' => '123', 'email' => 'bill@hullapp.io', 'name' => 'Bill Evans'); ?>
+    <?php $user = array('external_id' => '123', 'email' => 'bill@hullapp.io', 'name' => 'Bill Evans'); ?>
     <script>
       Hull.init({
         appId: '<?php echo $hull->appId ?>',
-        orgUrl: 'http://<?php echo $hull->host ?>',
-        userHash: '<?php echo $hull->userHash($user) ?>',
+        orgUrl: 'https://<?php echo $hull->host ?>',
+        userHash: '<?php echo $hull->userToken($user) ?>',
         debug: true // optional
       })
     </script>
@@ -106,34 +106,16 @@ To give / remove "admin" access to those users you can add the "is_admin" flag t
 
 example:
 
-    <?php $user = array('id' => '123', 'email' => 'bill@hullapp.io', 'name' => 'Bill Evans', 'is_admin' => true); ?>
+    <?php $user = array('external_id' => '123', 'email' => 'bill@hullapp.io', 'name' => 'Bill Evans', 'is_admin' => true); ?>
     <script>
       Hull.init({
         appId: '<?php echo $hull->appId ?>',
-        orgUrl: 'http://<?php echo $hull->host ?>',
-        userHash: '<?php echo $hull->userHash($user) ?>',
+        orgUrl: 'https://<?php echo $hull->host ?>',
+        userHash: '<?php echo $hull->userToken($user) ?>',
         debug: true // optional
       })
     </script>
 
-### Hooks
-
-[Hooks](hull.io/docs/libraries/#hooks) allow you to be notified every time an
-object in your app is created, updated or deleted.
-
-```php
-<?php
-
-$event = $hull->getEvent();
-
-if ($event->valid) {
-  // Do something with $event->payload
-  // To guard against replay-attacks you can use $event->nonce
-} else {
-  // $event->error
-}
-
-```
 
 ### Windows users
 
