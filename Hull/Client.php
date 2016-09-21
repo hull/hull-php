@@ -71,7 +71,63 @@ class Hull_Client {
     return $config;
   }
 
+  private function buildUserToken($claims) {
+    if (isset($claims['nbf'])) {
+      $claims['nbf'] = (int) $claims['nbf'];
+    }
+
+    if (isset($claims['exp'])) {
+      $claims['exp'] = (int) $claims['exp'];
+    }
+
+    return JWT::encode(array_merge($claims, array(
+      'iss' => $this->appId,
+      'iat' => time()
+    )), $this->appSecret);
+  }
+
+  public function userToken($identifier, $claims = array()) {
+    if (is_string($identifier)) {
+      $claims['sub'] = $identifier;
+    } else if (
+      !is_array($identifier) ||
+      (!isset($identifier['email']) && !isset($identifier['external_id']) && !isset($identifier['guest_id']))) {
+      throw new Exception('you need to pass a User hash with an `email` or `external_id` or `guest_id` field');
+    } else {
+      $claims['io.hull.user'] = $identifier;
+    }
+    return $this->buildUserToken($claims);
+  }
+
+  public function currentUserIdFromAccessToken() {
+    $accessToken = false;
+    if (isset($_REQUEST['access_token'])) {
+      $accessToken = $_REQUEST['access_token'];
+    }
+    if (!$accessToken && isset($_SERVER['HTTP_HULL_ACCESS_TOKEN'])) {
+      $accessToken = $_SERVER['HTTP_HULL_ACCESS_TOKEN'];
+    }
+    if ($accessToken) {
+      $claims = JWT::decode($accessToken, $this->appSecret);
+      if ($claims) {
+        return $claims->sub;
+      }
+    } else {
+      return false;
+    }
+  }
+
   public function currentUserId() {
+    $userId = false;
+    $userId = $this->currentUserIdFromCookie();
+    if (!$userId) {
+      $userId = $this->currentUserIdFromAccessToken();
+    }
+    return $userId;
+  }
+
+
+  public function currentUserIdFromCookie() {
     $rawSignature = false;
     $cookieName = 'hull_' . $this->appId;
     $rawSignature = isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName] : false;
@@ -79,7 +135,7 @@ class Hull_Client {
     if (!$rawSignature && isset($_SERVER['HTTP_HULL_USER_SIG'])) {
       $rawSignature = $_SERVER['HTTP_HULL_USER_SIG'];
     }
-    
+
     if (!$rawSignature) {
       return;
     }
