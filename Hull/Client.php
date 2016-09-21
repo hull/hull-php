@@ -4,6 +4,8 @@ require_once 'Connection.php';
 require_once 'Cache.php';
 require_once 'Event.php';
 
+use \Firebase\JWT\JWT;
+
 class Hull_Client {
 
   static $version = "0.1.0";
