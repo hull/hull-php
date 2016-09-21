@@ -18,6 +18,6 @@
     "psr-0" : { "Hull" : "" }
   },
   "require": {
-        "firebase/php-jwt": "1.*"
+        "firebase/php-jwt": "*"
   }
 }
