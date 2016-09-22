@@ -11,7 +11,7 @@
               return strtoupper($matches[0]);
             },
             strtolower(trim($match[1])));
-          
+
           if( isset($retVal[$match[1]]) ) {
             $retVal[$match[1]] = array($retVal[$match[1]], $match[2]);
           } else {
@@ -29,6 +29,7 @@
     public  $appId;
     public  $userId;
     public  $appSecret;
+    public  $accessToken;
     public  $noHttpCache;
     private $cache;
     public  $debug;
@@ -41,6 +42,13 @@
 
       $this->appId       = $config['appId'];
       $this->appSecret   = $config['appSecret'];
+
+      if (isset($config['accessToken'])) {
+        $this->accessToken = $config['accessToken'];
+      } else {
+        $this->accessToken = $this->appSecret;
+      }
+
       if (isset($config['userId'])) {
         $this->userId      = $config['userId'];
       }
@@ -80,7 +88,7 @@
       $headers[] = "User-Agent: HullPHPClient-" . Hull_Client::$version;
       $headers[] = "Content-Type: application/json";
       $headers[] = "Hull-App-Id: "  . $this->appId;
-      $headers[] = "Hull-Access-Token: " . $this->appSecret;
+      $headers[] = "Hull-Access-Token: " . $this->accessToken;
       if ($this->userId) {
         $headers[] = "Hull-User-Id: " . $this->userId;
       }
@@ -96,6 +104,8 @@
       } else {
         $res = $this->_http_exec($type, $url, $params, $headers);
       }
+
+
       return (array)$res;
     }
 

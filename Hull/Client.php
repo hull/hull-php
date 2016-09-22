@@ -154,6 +154,12 @@ class Hull_Client {
     }
   }
 
+  public function as($identifier) {
+    $userToken = $this->userToken($identifier);
+    $userConfig = array_merge(array('accessToken' => $userToken), $this->config);
+    return new self(array('hull' => $userConfig));
+  }
+
   // Current User
   public function asUser($userId) {
     $userConfig = array_merge(array('userId' => $userId), $this->config);
