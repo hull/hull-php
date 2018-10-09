@@ -36,7 +36,7 @@
     public  $debug_options;
     private $preventSSLVerifyPeer = false; //Thanks for nothing, Windows.
 
-    function Hull_Connection($config=array()) {
+    function __construct($config=array()) {
 
       $this->host        = $config['host'];
 

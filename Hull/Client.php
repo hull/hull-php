@@ -17,7 +17,7 @@ class Hull_Client {
 
   static $defaultConfig = array('host' => '', 'debug' => false);
 
-  function Hull_Client($o_config=array()){
+  function __construct($o_config=array()){
 
     $config = self::parseConfig($o_config['hull']);
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Hull_Event {
 
@@ -8,7 +8,7 @@ class Hull_Event {
   public $timestamp;
   public $error;
 
-  function Hull_Event($stream, $app_secret, $app_id='') {
+  function __construct($stream, $app_secret, $app_id='') {
     try {
       $this->payload    = json_decode($stream);
       $app_id            = strlen($app_id) ? $app_id : $_SERVER['HTTP_HULL_APP_ID'];
