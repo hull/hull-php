@@ -8,7 +8,7 @@ use \Firebase\JWT\JWT;
 
 class Hull_Client {
 
-  static $version = "0.1.0";
+  static $version = "0.2.0";
   static $dateFormat = "Y-m-d H:i:s O";
 
   public $debug = false;
@@ -96,7 +96,7 @@ class Hull_Client {
       (!isset($identifier['email']) && !isset($identifier['external_id']) && !isset($identifier['guest_id']))) {
       throw new Exception('you need to pass a User hash with an `email` or `external_id` or `guest_id` field');
     } else {
-      $claims['io.hull.user'] = $identifier;
+      $claims['io.hull.asUser'] = $identifier;
     }
     return $this->buildUserToken($claims);
   }
@@ -120,38 +120,7 @@ class Hull_Client {
   }
 
   public function currentUserId() {
-    $userId = false;
-    $userId = $this->currentUserIdFromCookie();
-    if (!$userId) {
-      $userId = $this->currentUserIdFromAccessToken();
-    }
-    return $userId;
-  }
-
-
-  public function currentUserIdFromCookie() {
-    $rawSignature = false;
-    $cookieName = 'hull_' . $this->appId;
-    $rawSignature = isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName] : false;
-
-    if (!$rawSignature && isset($_SERVER['HTTP_HULL_USER_SIG'])) {
-      $rawSignature = $_SERVER['HTTP_HULL_USER_SIG'];
-    }
-
-    if (!$rawSignature) {
-      return;
-    }
-
-    $signedCookie = json_decode(base64_decode($rawSignature), true);
-    $userId = $signedCookie['Hull-User-Id'];
-    $sig    = explode(".", $signedCookie['Hull-User-Sig']);
-    $time   = $sig[0];
-    $signature = $sig[1];
-    $data = $time . '-' . $userId;
-    $check = hash_hmac("sha1", $data, $this->appSecret);
-    if ($check == $signature) {
-      return $userId;
-    }
+    return $this->currentUserIdFromAccessToken();
   }
 
   public function asUser($identifier) {
@@ -177,20 +146,6 @@ class Hull_Client {
     }
     //Assets have their own subdomain
     return str_replace('//', '//assets.', $url);
-  }
-
-  public function userHash($userInfos) {
-    if (!is_array($userInfos)) {
-      return false;
-    }
-
-    if (!isset($userInfos['hull_user_id']) && !isset($userInfos['email'])) {
-      return false;
-    }
-    $message = base64_encode(json_encode($userInfos));
-    $timestamp = time();
-    $signature = hash_hmac("sha1", "$message $timestamp", $this->appSecret);
-    return "$message $signature $timestamp";
   }
 
   public function getEvent() {
